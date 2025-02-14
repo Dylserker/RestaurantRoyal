@@ -30,6 +30,9 @@ public class Main {
                 case 1:
                     System.out.print("Enter ID a restaurant: ");
                     int idRestaurant = scanner.nextInt();
+                    String fileName = "restaurant"+ idRestaurant +".txt";
+                    Restaurant.createOrder(fileName);
+                    System.out.print("Create restaurant!");
                     scanner.nextLine();
                     System.out.print("Enter restaurant name: ");
                     String restaurantName = scanner.nextLine();
@@ -39,6 +42,7 @@ public class Main {
                     String menuName = scanner.nextLine();
                     menu = new Menu(1, menuName, LocalDate.now(), "Generaly");
                     restaurant = new Restaurant(idRestaurant, restaurantName, restaurantAddress, menu);
+
                     System.out.println("Restaurant create successfully !");
                     break;
 

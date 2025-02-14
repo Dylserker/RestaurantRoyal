@@ -104,6 +104,19 @@ public class Restaurant {
         }
     }
 
+    public static void createOrder(String fileName) {
+        try {
+            File file = new File(fileName);
+            if (file.createNewFile()) {
+                System.out.println("File create : " + file.getName());
+            } else {
+                System.out.println("File already exists");
+            }
+        } catch (IOException e) {
+            System.out.println("Error while creating file :" + e.getMessage());
+        }
+    }
+
     public void saveOrder(String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             for (Order o : orders) {
