@@ -1,165 +1,190 @@
 package RestaurantRoyal;
-import java.time.LocalDate;
-import java.util.Scanner;
-import java.util.Arrays;
+
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Restaurant restaurant = null;
-        Menu menu = null;
+        List<Restaurant> restaurants = new ArrayList<>();
+        int choice;
 
-        while (true) {
-            System.out.println("\n Restaurant Manager");
-            System.out.println("1. Add Restaurant");
-            System.out.println("2. Add Employe a restaurant");
-            System.out.println("3. Add Menu");
-            System.out.println("4. Take an order");
-            System.out.println("5. Display employe");
-            System.out.println("6. Display orders");
-            System.out.println("7. Save order");
-            System.out.println("8. Load order");
-            System.out.println("9. View restaurant details");
-            System.out.println("10. Exit");
-            System.out.print("Enter your choice: ");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+        do {
+            System.out.println("\n=== MENU UTILISATEUR ===");
+            System.out.println("1. Ajouter un restaurant");
+            System.out.println("2. Ajouter un employé à un restaurant");
+            System.out.println("3. Afficher les employés d'un restaurant");
+            System.out.println("4. Sauvegarder les employés d'un restaurant");
+            System.out.println("5. Charger les employés d'un restaurant");
+            System.out.println("6. Sauvegarder tous les restaurants");
+            System.out.println("7. Charger tous les restaurants");
+            System.out.println("8. Quitter");
+            System.out.print("Votre choix : ");
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Éviter le problème du retour à la ligne
 
             switch (choice) {
                 case 1:
-                    System.out.print("Enter ID a restaurant: ");
-                    int idRestaurant = scanner.nextInt();
-                    String fileName = "restaurant"+ idRestaurant +".txt";
-                    Restaurant.createOrder(fileName);
-                    System.out.print("Create restaurant!");
-                    scanner.nextLine();
-                    System.out.print("Enter restaurant name: ");
+                    System.out.print("Nom du restaurant : ");
                     String restaurantName = scanner.nextLine();
-                    System.out.print("Enter restaurant address: ");
+                    System.out.print("Adresse du restaurant : ");
                     String restaurantAddress = scanner.nextLine();
-                    System.out.print("Enter menu name: ");
-                    String menuName = scanner.nextLine();
-                    menu = new Menu(1, menuName, LocalDate.now(), "Generaly");
-                    restaurant = new Restaurant(idRestaurant, restaurantName, restaurantAddress, menu);
-
-                    System.out.println("Restaurant create successfully !");
+                    Restaurant newRestaurant = new Restaurant(restaurants.size() + 1, restaurantName, restaurantAddress);
+                    restaurants.add(newRestaurant);
+                    System.out.println("Restaurant ajouté avec succès !");
                     break;
 
                 case 2:
-                    if (restaurant != null) {
-                        System.out.print("Enter add a restaurant: ");
+                    if (restaurants.isEmpty()) {
+                        System.out.println("Ajoutez un restaurant d'abord.");
                         break;
                     }
-                    System.out.print("Enter ID a employe: ");
-                    int idEmployee = scanner.nextInt();
+                    System.out.println("Choisissez un restaurant par ID : ");
+                    for (Restaurant r : restaurants) {
+                        System.out.println(r.getId() + ": " + r.getName());
+                    }
+                    System.out.print("ID du restaurant : ");
+                    int restaurantId = scanner.nextInt();
                     scanner.nextLine();
-                    System.out.print("name: ");
-                    String employeeName = scanner.nextLine();
-                    System.out.print("first name: ");
-                    String employeeFirstName = scanner.nextLine();
-                    System.out.print("role: ");
-                    String employeeRole = scanner.nextLine();
-                    System.out.print("salary: ");
-                    double employeeSalary = scanner.nextDouble();
+
+                    Restaurant selectedRestaurant = null;
+                    for (Restaurant r : restaurants) {
+                        if (r.getId() == restaurantId) {
+                            selectedRestaurant = r;
+                            break;
+                        }
+                    }
+
+                    if (selectedRestaurant == null) {
+                        System.out.println("Restaurant non trouvé.");
+                        break;
+                    }
+
+                    System.out.print("Nom de l'employé : ");
+                    String name = scanner.nextLine();
+                    System.out.print("Prénom : ");
+                    String firstName = scanner.nextLine();
+                    System.out.print("Rôle : ");
+                    String role = scanner.nextLine();
+                    System.out.print("Date d'embauche : ");
+                    String dateOfHire = scanner.nextLine();
+                    System.out.print("Salaire : ");
+                    double salary = scanner.nextDouble();
                     scanner.nextLine();
-                    Employe employe = new Employe(idEmployee, employeeName, employeeFirstName, employeeRole, "Today", employeeSalary);
-                    restaurant.addEmployee(employe);
-                    System.out.println("Employee create successfully !");
+
+                    Employee newEmployee = new Employee(restaurantId, name, firstName, role, dateOfHire, salary);
+                    selectedRestaurant.addEmployee(newEmployee);
+                    System.out.println("Employé ajouté avec succès !");
                     break;
 
                 case 3:
-                    if (restaurant == null) {
-                        System.out.print("Add first of all a restaurant: ");
+                    if (restaurants.isEmpty()) {
+                        System.out.println("Aucun restaurant enregistré.");
                         break;
                     }
-                    System.out.print("Name a flat : ");
-                    String flatName = scanner.nextLine();
-                    System.out.print("Description a flat : ");
-                    String flatDescription = scanner.nextLine();
-                    System.out.print("Price a flat : ");
-                    double flatPrice = scanner.nextDouble();
+                    System.out.println("Choisissez un restaurant pour afficher ses employés :");
+                    for (Restaurant r : restaurants) {
+                        System.out.println(r.getId() + ": " + r.getName());
+                    }
+                    System.out.print("ID du restaurant : ");
+                    int restId = scanner.nextInt();
                     scanner.nextLine();
-                    Flat flat= new Flat (flatName, flatDescription, flatPrice, 500, "Categorie", 500.0, LocalDate.now(), true, Arrays.asList("Ingredient1", "Ingredient2"), "Kitchen", 15,0, "🍽️");
-                    restaurant.getMenu().addFlat(flat);
-                    System.out.println("Flat add successfully !");
+
+                    Restaurant restaurantToShow = null;
+                    for (Restaurant r : restaurants) {
+                        if (r.getId() == restId) {
+                            restaurantToShow = r;
+                            break;
+                        }
+                    }
+
+                    if (restaurantToShow != null) {
+                        restaurantToShow.displayEmployees();
+                    } else {
+                        System.out.println("Restaurant non trouvé.");
+                    }
                     break;
 
                 case 4:
-                    if (restaurant == null) {
-                        System.out.print("Add first of all a restaurant: ");
+                    if (restaurants.isEmpty()) {
+                        System.out.println("Aucun restaurant enregistré.");
                         break;
                     }
-                    System.out.print("Number order : ");
-                    int orderNumber = scanner.nextInt();
+                    System.out.println("Choisissez un restaurant pour sauvegarder ses employés :");
+                    for (Restaurant r : restaurants) {
+                        System.out.println(r.getId() + ": " + r.getName());
+                    }
+                    System.out.print("ID du restaurant : ");
+                    int restToSaveId = scanner.nextInt();
                     scanner.nextLine();
-                    Order order = new Order(orderNumber);
-                    String answer;
-                    do {
-                        System.out.print("Name a added flat: ");
-                        String nameFlatOrder = scanner.nextLine();
-                        Flat flatOrder = restaurant.getMenu().searchFlatByName(nameFlatOrder);
-                        if (flatOrder != null) {
-                            order.addFlat(flatOrder);
-                            System.out.println("Flat add a order !");
-                        } else {
-                            System.out.println("Flat doesn't exist !");
+
+                    Restaurant restaurantToSave = null;
+                    for (Restaurant r : restaurants) {
+                        if (r.getId() == restToSaveId) {
+                            restaurantToSave = r;
+                            break;
                         }
-                        System.out.print("Add a other flat ? (yes/no) ");
-                        answer = scanner.nextLine();
-                    } while (answer.equalsIgnoreCase("yes"));
-                    restaurant.addOrder(order);
-                    System.out.println("Order saved !");
+                    }
+
+                    if (restaurantToSave != null) {
+                        restaurantToSave.saveEmployeesToFile();
+                        System.out.println("Employés sauvegardés !");
+                    } else {
+                        System.out.println("Restaurant non trouvé.");
+                    }
                     break;
 
                 case 5:
-                    if (restaurant == null) {
-                        System.out.print("Add first of all a restaurant: ");
+                    if (restaurants.isEmpty()) {
+                        System.out.println("Aucun restaurant enregistré.");
                         break;
                     }
-                    restaurant.displayEmploye();
+                    System.out.println("Choisissez un restaurant pour charger ses employés :");
+                    for (Restaurant r : restaurants) {
+                        System.out.println(r.getId() + ": " + r.getName());
+                    }
+                    System.out.print("ID du restaurant : ");
+                    int restToLoadId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    Restaurant restaurantToLoad = null;
+                    for (Restaurant r : restaurants) {
+                        if (r.getId() == restToLoadId) {
+                            restaurantToLoad = r;
+                            break;
+                        }
+                    }
+
+                    if (restaurantToLoad != null) {
+                        restaurantToLoad.loadEmployeesFromFile();
+                        System.out.println("Employés chargés !");
+                    } else {
+                        System.out.println("Restaurant non trouvé.");
+                    }
                     break;
 
                 case 6:
-                    if (restaurant == null) {
-                        System.out.print("Add first of all a restaurant: ");
-                        break;
-                    }
-                    restaurant.displayOrder();
+                    System.out.print("Nom du fichier de sauvegarde : ");
+                    String saveFile = scanner.nextLine();
+                    Restaurant.saveRestaurantsToFile(saveFile, restaurants);
+                    System.out.println("Restaurants sauvegardés !");
                     break;
 
                 case 7:
-                    if (restaurant == null) {
-                        System.out.print("Add first of all a restaurant: ");
-                        break;
-                    }
-                    restaurant.saveOrder("order.txt");
+                    System.out.print("Nom du fichier à charger : ");
+                    String loadFile = scanner.nextLine();
+                    restaurants = Restaurant.loadRestaurantsFromFile(loadFile);
+                    System.out.println("Restaurants chargés !");
                     break;
 
                 case 8:
-                    if (restaurant == null) {
-                        System.out.print("Add first of all a restaurant: ");
-                        break;
-                    }
-                    restaurant.changeOrder("order.txt");
+                    System.out.println("Au revoir !");
                     break;
-
-                case 9:
-                    if (restaurant == null) {
-                        System.out.print("Add first of all a restaurant: ");
-                        break;
-                    }
-                    restaurant.displayRestaurant();
-                    break;
-
-                case 10:
-                    System.out.print("Program closing");
-                    scanner.close();
-                    return;
 
                 default:
-                    System.out.print("Invalid choice, please try again.");
+                    System.out.println("Choix invalide, veuillez réessayer.");
             }
-        }
+        } while (choice != 8);
+
+        scanner.close();
     }
 }
