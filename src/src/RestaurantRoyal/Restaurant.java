@@ -28,7 +28,7 @@ class Restaurant {
 
     public void displayEmployees() {
         if (employees.isEmpty()) {
-            System.out.println("Aucun employé enregistré pour ce restaurant.");
+            System.out.println("No employees registered for this restaurant.");
         } else {
             employees.forEach(System.out::println);
         }
@@ -40,9 +40,9 @@ class Restaurant {
                 writer.write(restaurant.id + "," + restaurant.name + "," + restaurant.address);
                 writer.newLine();
             }
-            System.out.println("✅ Restaurants sauvegardés avec succès dans " + filename);
+            System.out.println("✅ Restaurants successfully saved in " + filename);
         } catch (IOException e) {
-            System.out.println("❌ Erreur lors de la sauvegarde des restaurants.");
+            System.out.println("❌ Error saving restaurants.");
         }
     }
 
@@ -61,12 +61,12 @@ class Restaurant {
                     String address = parts[2].trim();
                     restaurants.add(new Restaurant(id, name, address));
                 } catch (NumberFormatException e) {
-                    System.out.println("⚠️ Erreur de format dans le fichier. Ligne ignorée.");
+                    System.out.println("⚠️ Format error in file. Line ignored.");
                 }
             }
-            System.out.println("✅ Restaurants chargés avec succès depuis " + filename);
+            System.out.println("✅ Restaurants loaded successfully since " + filename);
         } catch (IOException e) {
-            System.out.println("❌ Aucun fichier trouvé pour les restaurants.");
+            System.out.println("❌ No files found for restaurants.");
         }
 
         return restaurants;
@@ -78,9 +78,9 @@ class Restaurant {
                 writer.write(emp.toFile());
                 writer.newLine();
             }
-            System.out.println("✅ Employés du restaurant " + name + " sauvegardés !");
+            System.out.println("✅ Restaurant employees " + name + " saved !");
         } catch (IOException e) {
-            System.out.println("❌ Erreur de sauvegarde des employés.");
+            System.out.println("❌ Employee Backup Error.");
         }
     }
 
@@ -91,9 +91,9 @@ class Restaurant {
             while ((line = reader.readLine()) != null) {
                 employees.add(Employee.fromFile(line));
             }
-            System.out.println("✅ Employés chargés avec succès pour " + name);
+            System.out.println("✅ Employees successfully tasked for " + name);
         } catch (IOException e) {
-            System.out.println("❌ Aucun fichier trouvé pour les employés de " + name);
+            System.out.println("❌ No files found for employees of " + name);
         }
     }
 }

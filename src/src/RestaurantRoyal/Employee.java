@@ -18,11 +18,11 @@ class Employee {
 
     @Override
     public String toString() {
-        return "Employé #" + id + " : " + name + " " + first_name + " (" + role + "), Salary : " + salary + "$, Date of hire : " + date_of_hire;
+        return "Employee #" + id + " : " + name + " " + first_name + "(" + role + "), Date of hire : " + date_of_hire + "$, Salary : " + salary;
     }
 
     public String toFile() {
-        return id + "," + name + "," + first_name + "," + role + "," + date_of_hire + "," + date_of_hire + "," + salary;
+        return id + "," + name + "," + first_name + "," + role + "," + date_of_hire + "," + salary;
     }
 
     public static Employee fromFile(String file) {
