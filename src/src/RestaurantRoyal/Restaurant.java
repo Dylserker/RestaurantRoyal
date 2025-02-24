@@ -6,12 +6,15 @@ import java.util.*;
 class Restaurant {
     private int id;
     private String name, address;
-    private List<Employee> employees = new ArrayList<>();
+    private List<Employee> employees;
+    private List<Dish> menu;
 
     public Restaurant(int id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.employees = new ArrayList<>();
+        this.menu = new ArrayList<>();
     }
 
     public int getId() {
@@ -28,9 +31,54 @@ class Restaurant {
 
     public void displayEmployees() {
         if (employees.isEmpty()) {
-            System.out.println("No employees registered for this restaurant.");
-        } else {
-            employees.forEach(System.out::println);
+            System.out.println("No employees registered.");
+            return;
+        }
+        System.out.println("\n=== Employees of " + name + " ===");
+        for (Employee e : employees) {
+            System.out.println(e);
+        }
+    }
+
+    public void addDish(Dish dish) {
+        menu.add(dish);
+    }
+
+    public void displayMenu() {
+        if (menu.isEmpty()) {
+            System.out.println("\nNo dishes in the menu.");
+            return;
+        }
+        System.out.println("\n=== Menu of " + name + " ===");
+        for (Dish d : menu) {
+            System.out.println(d);
+        }
+    }
+
+    public void saveMenuToFile() {
+        String filename = "menu_" + id + ".txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (Dish dish : menu) {
+                writer.write(dish.toString());
+                writer.newLine();
+            }
+            System.out.println("\n✅ Menu saved successfully in " + filename);
+        } catch (IOException e) {
+            System.err.println("❌ Error saving the menu: " + e.getMessage());
+        }
+    }
+
+    public void loadMenuFromFile() {
+        String filename = "menu_" + id + ".txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            menu.clear();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            System.out.println("\n✅ Menu loaded successfully from " + filename);
+        } catch (IOException e) {
+            System.err.println("❌ Error loading the menu: " + e.getMessage());
         }
     }
 

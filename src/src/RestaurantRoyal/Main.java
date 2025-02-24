@@ -15,9 +15,13 @@ public class Main {
             System.out.println("3. Show restaurant employees");
             System.out.println("4. Safeguard restaurant employees");
             System.out.println("5. Load restaurant employees");
-            System.out.println("6. Save all restaurants");
-            System.out.println("7. Load all restaurants");
-            System.out.println("8. Exit");
+            System.out.println("6. Add a dish to a restaurant menu");
+            System.out.println("7. Show restaurant menu");
+            System.out.println("8. Save restaurant menu");
+            System.out.println("9. Load restaurant menu");
+            System.out.println("10. Save all restaurants");
+            System.out.println("11. Load all restaurants");
+            System.out.println("12. Exit");
             System.out.print("Choice : ");
             choice = scanner.nextInt();
             scanner.nextLine();
@@ -163,28 +167,91 @@ public class Main {
                     break;
 
                 case 6:
+                    Restaurant restToAddDish = selectRestaurant(scanner, restaurants);
+                    if (restToAddDish == null) break;
+
+                    System.out.print("Dish name : ");
+                    String dishName = scanner.nextLine();
+                    System.out.print("Description : ");
+                    String description = scanner.nextLine();
+                    System.out.print("Category : ");
+                    String category = scanner.nextLine();
+                    System.out.print("Type of Kitchen : ");
+                    String typeKitchen = scanner.nextLine();
+                    System.out.print("Price : ");
+                    double price = scanner.nextDouble();
+                    System.out.print("Calories : ");
+                    int calory = scanner.nextInt();
+                    System.out.print("Time to prepare (min) : ");
+                    int timePreparation = scanner.nextInt();
+                    scanner.nextLine();
+
+                    Dish newDish = new Dish(dishName, description, category, typeKitchen, price, calory, timePreparation);
+                    restToAddDish.addDish(newDish);
+                    System.out.println("✅ Dish added successfully !");
+                    break;
+
+                case 7:
+                    Restaurant restToShowMenu = selectRestaurant(scanner, restaurants);
+                    if (restToShowMenu != null) restToShowMenu.displayMenu();
+                    break;
+
+                case 8:
+                    Restaurant restToSaveMenu = selectRestaurant(scanner, restaurants);
+                    if (restToSaveMenu != null) restToSaveMenu.saveMenuToFile();
+                    break;
+
+                case 9:
+                    Restaurant restToLoadMenu = selectRestaurant(scanner, restaurants);
+                    if (restToLoadMenu != null) restToLoadMenu.loadMenuFromFile();
+                    break;
+
+                case 10:
                     System.out.print("Name save file : ");
                     String saveFile = scanner.nextLine();
                     Restaurant.saveRestaurantsToFile(saveFile, restaurants);
                     System.out.println("Restaurants save !");
                     break;
 
-                case 7:
+                case 11:
                     System.out.print("Name load file : ");
                     String loadFile = scanner.nextLine();
                     restaurants = Restaurant.loadRestaurantsFromFile(loadFile);
                     System.out.println("Restaurants load !");
                     break;
 
-                case 8:
+                case 12:
                     System.out.println("Byebye !");
                     break;
 
                 default:
                     System.out.println("Invalid Choice, try again.");
             }
-        } while (choice != 8);
+        } while (choice != 12);
 
         scanner.close();
     }
+
+    private static Restaurant findRestaurantById(List<Restaurant> restaurants, int id) {
+        for (Restaurant r : restaurants) {
+            if (r.getId() == id) return r;
+        }
+        return null;
+    }
+
+    private static Restaurant selectRestaurant(Scanner scanner, List<Restaurant> restaurants) {
+        if (restaurants.isEmpty()) {
+            System.out.println("❌ No registered restaurants.");
+            return null;
+        }
+        System.out.println("Choose a restaurant by ID : ");
+        for (Restaurant r : restaurants) {
+            System.out.println(r.getId() + ": " + r.getName());
+        }
+        System.out.print("ID restaurant : ");
+        int restId = scanner.nextInt();
+        scanner.nextLine();
+        return findRestaurantById(restaurants, restId);
+    }
 }
+
