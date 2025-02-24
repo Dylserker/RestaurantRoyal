@@ -27,7 +27,7 @@ class Dish {
 
     @Override
     public String toString() {
-        return name + " - " + description + " - Price : " + price + "$ - calory : " + calory + " - Type : " + typeKitchen;
+        return name + " - " + description + " - Price : " + price + " $ " + " - calory : " + calory + " - Type : " + typeKitchen;
     }
 
     public void saveToFile(String filename) {
@@ -40,6 +40,3 @@ class Dish {
         }
     }
 }
-
-
-

@@ -46,39 +46,38 @@ class Restaurant {
 
     public void displayMenu() {
         if (menu.isEmpty()) {
-            System.out.println("\nNo dishes in the menu.");
-            return;
-        }
-        System.out.println("\n=== Menu of " + name + " ===");
-        for (Dish d : menu) {
-            System.out.println(d);
+            System.out.println("🍽️ The menu is empty.");
+        } else {
+            System.out.println("🍽️ Menu:");
+            for (Dish dish : menu) {
+                System.out.println(dish);
+            }
         }
     }
 
     public void saveMenuToFile() {
-        String filename = "menu_" + id + ".txt";
+        String filename = "menu_" + name.replace(" ", "_") + ".txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             for (Dish dish : menu) {
                 writer.write(dish.toString());
                 writer.newLine();
             }
-            System.out.println("\n✅ Menu saved successfully in " + filename);
+            System.out.println("✅ Menu saved to " + filename);
         } catch (IOException e) {
-            System.err.println("❌ Error saving the menu: " + e.getMessage());
+            System.err.println("❌ Error saving menu: " + e.getMessage());
         }
     }
 
     public void loadMenuFromFile() {
-        String filename = "menu_" + id + ".txt";
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+        String filename = "menu_" + name.replace(" ", "_") + ".txt";
+        try (Scanner fileScanner = new Scanner(new File(filename))) {
             menu.clear();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+            while (fileScanner.hasNextLine()) {
+                System.out.println(fileScanner.nextLine()); // Affichage temporaire, parsing à améliorer si besoin
             }
-            System.out.println("\n✅ Menu loaded successfully from " + filename);
+            System.out.println("✅ Menu loaded from " + filename);
         } catch (IOException e) {
-            System.err.println("❌ Error loading the menu: " + e.getMessage());
+            System.err.println("❌ Error loading menu: " + e.getMessage());
         }
     }
 
