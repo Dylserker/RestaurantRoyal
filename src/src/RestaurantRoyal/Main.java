@@ -14,7 +14,7 @@ public class Main {
             System.out.println("2. Add an employee to a restaurant");
             System.out.println("3. Show restaurant employees");
             System.out.println("4. Safeguard restaurant employees");
-            System.out.println("5. Charge restaurant employees");
+            System.out.println("5. Load restaurant employees");
             System.out.println("6. Save all restaurants");
             System.out.println("7. Load all restaurants");
             System.out.println("8. Exit");

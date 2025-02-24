@@ -18,7 +18,7 @@ class Employee {
 
     @Override
     public String toString() {
-        return "Employee #" + id + " : " + name + " " + first_name + "(" + role + "), Date of hire : " + date_of_hire + "$, Salary : " + salary;
+        return "Employee #" + id + " : " + name + " " + first_name + "(" + role + "), Date of hire : " + date_of_hire + ", Salary : " + salary + " $ " ;
     }
 
     public String toFile() {
