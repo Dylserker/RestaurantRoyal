@@ -7,36 +7,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Dish {
-    private String name, description, category, typeKitchen;
-    private double price;
-    private int calory, timePreparation;
+    private String nom;
+    private String description;
+    private double prix;
+    private int calories;
+    private String categorie;
+    private String taillePortion;
+    private String dateAjout;
+    private boolean disponibilite;
+    private String ingredients;
+    private String typeCuisine;
+    private int tempsPreparation;
+    private double prixSpecial;
+    private String imageURL;
 
-    public Dish(String name, String description, String category, String typeKitchen, double price, int calory, int timePreparation) {
-        this.name = name;
+    public Dish(String nom, String description, double prix, int calories, String categorie, String taillePortion, String dateAjout, boolean disponibilite, String ingredients, String typeCuisine, int tempsPreparation, double prixSpecial, String imageURL) {
+        this.nom = nom;
         this.description = description;
-        this.category = category;
-        this.typeKitchen = typeKitchen;
-        this.price = price;
-        this.calory = calory;
-        this.timePreparation = timePreparation;
+        this.prix = prix;
+        this.calories = calories;
+        this.categorie = categorie;
+        this.taillePortion = taillePortion;
+        this.dateAjout = dateAjout;
+        this.disponibilite = disponibilite;
+        this.ingredients = ingredients;
+        this.typeCuisine = typeCuisine;
+        this.tempsPreparation = tempsPreparation;
+        this.prixSpecial = prixSpecial;
+        this.imageURL = imageURL;
     }
 
-    public double getPrice() {
-        return price;
-    }
+    public String getNom() { return nom; }
+    public double getPrix() { return prix; }
 
     @Override
     public String toString() {
-        return name + " - " + description + " - Price : " + price + " $ " + " - calory : " + calory + " - Type : " + typeKitchen;
-    }
-
-    public void saveToFile(String filename) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
-            writer.write(this.toString());
-            writer.newLine();
-            System.out.println("✅ Plat enregistré : " + name);
-        } catch (IOException e) {
-            System.err.println("❌ Erreur lors de l'écriture dans le fichier: " + e.getMessage());
-        }
+        return nom + " - " + description + " (" + prix + " euros)";
     }
 }
